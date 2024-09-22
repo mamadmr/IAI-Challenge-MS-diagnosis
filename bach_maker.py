@@ -363,7 +363,7 @@ class BatchMaker:
             if np.sum(temp_patch) < threshold:
                 return patch, start
         
-    def generate_batch(self, regtangle_path, data_path, patch_size, batch_size, positive_ratio):
+    def generate_batch(self, regtangle_path, data_path, patch_size, batch_size, positive_ratio, threshold):
         regtangles = self.load_regtangles(regtangle_path, data_path)
         paths = self.get_the_paths(data_path)
 
@@ -379,7 +379,7 @@ class BatchMaker:
                 _, start = self.generate_random_patch_with_lesion(self.load_image(paths[i]['lesion']), regtangles[str(i)], patch_size)
             
             else:
-                _, start = self.generate_random_patch_without_lesion(self.load_image(paths[i]['lesion']), patch_size, 20)
+                _, start = self.generate_random_patch_without_lesion(self.load_image(paths[i]['lesion']), patch_size, threshold)
             
             mri_image = self.load_image(paths[i]['mri'])
             batch_mri.append(mri_image[start[0]:start[0] + patch_size[0], start[1]:start[1] + patch_size[1], start[2]:start[2] + patch_size[2]])
